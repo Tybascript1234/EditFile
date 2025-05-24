@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit files</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="Image/logo.png">
+    <script src="script.js"></script>
+    <script src="scrip.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+<!-- ----------------------------------------------------------------- -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+<!-- ----------------------------------------------------------------- -->
+</head>
+<body>
+    <div class="Document">
+        <div id="inputDiv" class="inputDiv" style="display:none; margin-top:10px;">
+            <h2 id="inputDivTitle">إنشاء حاوية جديدة</h2>
+            <input type="text" id="nameInput" placeholder="أدخل الاسم">
+            <input type="password" id="passwordInput" placeholder="اضافة كلمة مرور اختياري">
+            <div style="display: flex;justify-content: right;">
+                <button id="cancelPasswordButton" class="ccd rro" onclick="cancelPassword()" style="padding: 0 8px;display: none;"><ion-icon name="lock-open-outline"></ion-icon></button>
+                <button onclick="createItem()" class="ccd">حفظ العنصر</button>
+            </div>
+        </div>
+
+        <div id="overlayMessage" class="inputDiv" style="display:none;">
+            <p style="direction: rtl;">لقد وصلت للحد الأعلى من محتوى هذه الحاوية 20 عنصر. قم بإضافة حاوية جديدة.</p>
+            <button onclick="showInputDiv()" class="ccd">انشئ حاوية جديدة</button>
+        </div>
+        <div class="Document-div">
+        <div id="overlay" class="modal-overlay"></div>
+        <div class="maenu">
+            <div class="volt1 notranslate cv" onclick="window.location.href='';">
+                <img src="Image/image-Photoroom.png" alt="">
+                <!-- <span style="color: white;position: relative;right: 3px;">E</span>dit files -->
+            </div>
+            <div class="volt2">
+                <div class="fonts-div">
+                    <button class="vol wave-button" id="btn1" data-target="div1"><icon style="background-image: url(Icon/translate_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+                    <div class="dropdown" id="div1">
+                        <iframe src="" style="border-radius: 17px; box-shadow: 0px 2px 7px #00000046, 0px 1px 1px #0000004f;" frameborder="0" width="210px" height="80px"></iframe>
+                    </div>
+                </div>
+                <button class="vol wave-button zzz" id="toggleDarkMode"><icon style="background-image: url(Icon/dark_mode_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+                <button class="vol wave-button cv" id="toggleBtn"><icon style="background-image: url(Icon/menu_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+            </div>
+        </div>
+
+        <div class="home">
+            <div class="Edit">
+                <div class="x0x">
+                    <div class="Edit-div files-container" id="filesSection">
+                        <div class="head">
+                            <div class="head_div">
+                                <div><button class="ccd rro" onclick="confirmDeleteAllFiles()" style="padding: 0 8px; margin: 0; position: absolute; left: 1px;"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></button></div>
+                                <div class="head-div">
+                                    <input type="file" id="fileInput" style="display: none;" multiple>
+                                </div>
+                            </div>
+                                <div><h3 style="direction: rtl;width: max-content;margin-top: 0;">المحتوى الخاص بـ <span id="currentName"></span></h3></div>
+                        </div>
+                        <div id="fileList"><div style="display: block;margin: auto;width: max-content;">...جارِ تحميل الملفات</div></div>
+                    </div>
+                    <div class="chat">
+                        <div class="vv">
+                            <div class="vv_div">
+                                <button class="ccd rro" onclick="stopRecording()" style="padding: 0 8px;"><icon style="background-image: url(Icon/stop_circle_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+                                <div style="margin: auto;width: max-content;">0.s</div>
+                            </div>
+                            <button onclick="startRecording()" class="wave-button cv" style="margin-bottom: 0;"><icon style="background-image: url(Icon/mic_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png);"></icon></button>
+                        </div>
+                        <div class="klick" id="messageInputContainer">
+                            <div class="chat-div message-input" id="messageInput" style="direction: rtl;" contenteditable="true" data-placeholder="اكتب رسالتك هنا..."></div>
+                            <!-- <input type="text" placeholder="اكتب رسالة لا تتعدى ال 1000 حرف"> -->
+                            <button id="sendMessageButton" class="wave-button" onclick="sendMessage()" style="position: absolute; right: 0;bottom: 0;margin: 4px;height: 38px; width: 38px;"><icon style="background-image: url(Icon/send_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+                        </div>
+                        <div>
+                            <label for="fileInput" class="wave-button cv"><icon style="background-image: url(Icon/add_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></label>
+                        </div>
+                    </div>
+                    <!-- -------- -->
+                     <div class="onlins"></div>
+                </div>
+                <div class="Edit_div">
+                    <div style="text-align: -webkit-center;max-width: 240px;">
+                        <p style="direction: rtl;font-weight: 600;">أنشئ حاوية جديدة حتى يمكنك رفع الفيديوهات والملفات والصور من جهازك وحفظها في Edit file.</p>
+                        <button style="margin: 0;" onclick="showInputDiv()" class="ccd">انشئ حاوية جديدة</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tooles" id="codar">
+                <div onclick="showInputDiv()" class="onlin wave-button"><icon style="background-image: url(Icon/add_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon> اضف حاوية</div>
+                <div class="tooles-div">
+                    <hr>
+                    <div id="itemsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".Ex").forEach(element => {
+                element.remove();
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener("touchstart", function (event) {
+        event.target.style.cursor = "context-menu";
+    });
+    </script>
+</body>
+</html>
