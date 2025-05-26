@@ -233,15 +233,29 @@ document.addEventListener('DOMContentLoaded', function () {
 document.querySelectorAll('.Wave-cloud').forEach(btn => {
   let ripple = null;
 
-  const create = e => {
+  const create = (e) => {
     if (ripple) return;
-    const r = btn.getBoundingClientRect(), s = Math.max(r.width, r.height) * 0.5;
-    ripple = Object.assign(document.createElement('span'), {
-      className: 'ripple',
-      style: `width:${s}px;height:${s}px;left:${e.clientX - r.left - s/2}px;top:${e.clientY - r.top - s/2}px`
+
+    const r = btn.getBoundingClientRect();
+    const s = Math.max(r.width, r.height) * 0.5;
+
+    // دعم إحداثيات اللمس
+    let clientX = e.clientX,
+      clientY = e.clientY;
+    if (e.touches && e.touches.length > 0) {
+      clientX = e.touches[0].clientX;
+      clientY = e.touches[0].clientY;
+    }
+
+    ripple = Object.assign(document.createElement("span"), {
+      className: "ripple",
+      style: `width:${s}px;height:${s}px;left:${
+        clientX - r.left - s / 2
+      }px;top:${clientY - r.top - s / 2}px`,
     });
+
     btn.appendChild(ripple);
-    requestAnimationFrame(() => ripple.classList.add('expand'));
+    requestAnimationFrame(() => ripple.classList.add("expand"));
   };
 
   const release = () => {
