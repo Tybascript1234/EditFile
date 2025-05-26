@@ -161,7 +161,7 @@ function renderItems() {
                     <div class="click wave-button">${item.name}</div>
                     <div class="item-buttons">
                         <button class="edit-button"><icon style="background-image: url(Icon/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
-                        <button class="delete-button"><icon style="background-image: url(Icon/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+                        <button class="delete-button Wave-cloud"><icon style="background-image: url(Icon/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
                     </div>
                 `;
             
@@ -523,7 +523,7 @@ function renderFiles(newFiles = []) {
                 buttonsDiv.classList.add("zoon");
                 buttonsDiv.innerHTML = `
                     <button onclick="shareFile('${file.url}', '${file.name}')" class="buttone"><icon style="background-image: url(Icon/share_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
-                    <button onclick="confirmDeleteFile(${file.id})" class="buttone"><icon style="background-image: url(Icon/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+                    <button onclick="confirmDeleteFile(${file.id})" class="buttone" style="margin-bottom: 0;"><icon style="background-image: url(Icon/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
                 `;
 
                 div.appendChild(buttonsDiv);
@@ -584,7 +584,7 @@ function renderFiles(newFiles = []) {
                     buttonsDiv.classList.add("zoon");
                     buttonsDiv.innerHTML = `
                         <button onclick="shareFile('${file.url}', '${file.name}')" class="buttone"><icon style="background-image: url(Icon/share_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
-                        <button onclick="confirmDeleteFile(${file.id})" class="buttone"><icon style="background-image: url(Icon/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
+                        <button onclick="confirmDeleteFile(${file.id})" class="buttone" style="margin-bottom: 0;"><icon style="background-image: url(Icon/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg);"></icon></button>
                     `;
 
                     div.appendChild(buttonsDiv);
