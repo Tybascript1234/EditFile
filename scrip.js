@@ -27,11 +27,9 @@ function showInputDiv(isEdit = false) {
         inputDivTitle.textContent = "إنشاء حاوية جديدة";
     }
     
-    // إخفاء overlayMessage إذا كانت ظاهرة
     document.getElementById("overlayMessage").style.display = "none";
-    
     document.getElementById("inputDiv").style.display = "block";
-    document.getElementById("overlay").style.display = "block"; // إظهار الـ overlay
+    document.getElementById("overlay").style.display = "block";
     document.getElementById("inputDiv").setAttribute("data-edit", isEdit);
 }
 
@@ -72,7 +70,6 @@ function createItem() {
             return;
         }
 
-        // البحث باستخدام الاسم الأصلي
         const getRequest = store.get(currentEditItem.name);
         
         getRequest.onsuccess = function() {
@@ -88,7 +85,6 @@ function createItem() {
                 files: originalItem.files
             };
 
-            // إذا تغير الاسم، نحتاج لحذف القديم وإضافة الجديد
             if (currentEditItem.name !== name) {
                 store.delete(currentEditItem.name);
             }
@@ -96,7 +92,6 @@ function createItem() {
             store.put(updatedItem);
             
             transaction.oncomplete = function() {
-                // تحديث العنصر المحدد إذا كان هو المعدل
                 if (selectedItem === currentEditItem.name) {
                     selectedItem = name;
                     localStorage.setItem('selectedItem', name);
@@ -104,7 +99,7 @@ function createItem() {
                 
                 renderItems();
                 hideInputDiv();
-                currentEditItem = null; // مسح العنصر بعد التعديل
+                currentEditItem = null;
             };
         };
         
@@ -112,7 +107,6 @@ function createItem() {
             console.error("Error retrieving item for editing");
         };
     } else {
-        // إنشاء جديد
         store.add({ name: name, password: password || null, files: [] });
         
         transaction.oncomplete = function() {
@@ -121,7 +115,6 @@ function createItem() {
             renderItems();
             hideInputDiv();
 
-            // فتح العنصر الجديد تلقائيًا
             setTimeout(() => {
                 const itemsList = document.getElementById("itemsList");
                 const newItemDiv = itemsList.querySelector('.item:first-child');
@@ -221,16 +214,15 @@ function renderItems() {
 
 function highlightItem(div) {
     if (previousSelectedItemDiv) {
-        previousSelectedItemDiv.style.backgroundColor = ""; // إعادة اللون الافتراضي
-        previousSelectedItemDiv.style.color = ""; // إعادة اللون الافتراضي
-        previousSelectedItemDiv.style.fontWeight = ""; // إعادة اللون الافتراضي
+        previousSelectedItemDiv.style.backgroundColor = "";
+        previousSelectedItemDiv.style.color = "";
+        previousSelectedItemDiv.style.fontWeight = "";
     }
-    div.style.backgroundColor = "#c2e7ff"; // تغيير لون العنصر المحدد
-    div.style.color = "#001d35"; // تغيير لون العنصر المحدد
-    div.style.fontWeight = "600"; // تغيير لون العنصر المحدد
-    previousSelectedItemDiv = div; // تحديث العنصر المحدد السابق
+    div.style.backgroundColor = "#c2e7ff";
+    div.style.color = "#001d35";
+    div.style.fontWeight = "600";
+    previousSelectedItemDiv = div;
 
-    // حفظ العنصر المحدد في localStorage
     localStorage.setItem('selectedItem', div.querySelector('.wave-button').textContent);
 }
 
@@ -239,7 +231,6 @@ function deleteItem(name) {
     let store = transaction.objectStore("items");
     store.delete(name);
     transaction.oncomplete = function() {
-        // إزالة العنصر المحدد من localStorage إذا تم حذفه
         if (localStorage.getItem('selectedItem') === name) {
             localStorage.removeItem('selectedItem');
         }
@@ -249,7 +240,6 @@ function deleteItem(name) {
 
         let nextItemDiv = null;
 
-        // العثور على العنصر الأقرب
         for (let i = 0; i < itemDivs.length; i++) {
             if (itemDivs[i].querySelector('.wave-button').textContent !== name) {
                 nextItemDiv = itemDivs[i];
@@ -274,7 +264,7 @@ function deleteItem(name) {
                     } else {
                         alert("Incorrect password!");
                         document.getElementById("filesSection").style.display = "none";
-                        return; // عدم تغيير العنصر المحدد
+                        return;
                     }
                 } else {
                     showFiles(item.name);
@@ -282,7 +272,6 @@ function deleteItem(name) {
                 }
             };
         } else {
-            // إخفاء filesSection إذا لم تكن هناك عناصر
             document.getElementById("filesSection").style.display = "none";
         }
 
@@ -304,14 +293,12 @@ function showEditDiv(item) {
         }
     }
     
-    // تخزين العنصر الحالي للتعديل
-    currentEditItem = {...item}; // إنشاء نسخة جديدة لتجنب المشاكل المرجعية
+    currentEditItem = {...item};
     
     document.getElementById("nameInput").value = item.name;
     document.getElementById("passwordInput").value = item.password || "";
     showInputDiv(true);
 
-    // إظهار/إخفاء زر إلغاء الباسورد
     document.getElementById("cancelPasswordButton").style.display = item.password ? "block" : "none";
 }
 
@@ -358,7 +345,8 @@ function uploadFiles() {
                         item.files = item.files.concat(filesArray);
                         updateStore.put(item);
                         updateTransaction.oncomplete = function () {
-                            renderFiles(filesArray); // تمرير الملفات الجديدة فقط
+                            renderFiles(filesArray);
+                            updateProgressBar(item.files.length);
                         };
                     }
                 };
@@ -399,6 +387,7 @@ function startRecording() {
                     store.put(item);
                     transaction.oncomplete = function () {
                         renderFiles();
+                        updateProgressBar(item.files.length);
                     };
                 };
             };
@@ -428,10 +417,11 @@ function deleteAllFiles() {
 
         request.onsuccess = function() {
             let item = request.result;
-            item.files = [];  // إفراغ قائمة الملفات
+            item.files = [];
             store.put(item);
             transaction.oncomplete = function() {
-                renderFiles();  // تحديث واجهة المستخدم بعد الحذف
+                renderFiles();
+                updateProgressBar(0);
             };
         };
     }
@@ -458,12 +448,41 @@ function sendMessage() {
             store.put(item);
             transaction.oncomplete = function() {
                 renderFiles();
-                // إعادة تعيين حجم حقل الإدخال والهامش بعد الإرسال
+                updateProgressBar(item.files.length);
                 messageInput.textContent = "";
                 messageInput.style.height = "21.5px";
                 filesSection.style.marginBottom = "59px";
             };
         };
+    }
+}
+
+function updateProgressBar(currentFiles) {
+    const maxFiles = 20;
+    const progressBar = document.getElementById("fileProgress");
+    const fileCount = document.getElementById("fileCount");
+    
+    const percentage = (currentFiles / maxFiles) * 100;
+    
+    progressBar.style.width = `${percentage}%`;
+    fileCount.textContent = `${currentFiles}/${maxFiles}`;
+    
+    if (percentage >= 90) {
+        progressBar.style.backgroundColor = "#ff3b30";
+        progressBar.style.boxShadow = "0 0 8px rgba(255, 59, 48, 0.6)";
+    } else if (percentage >= 70) {
+        progressBar.style.backgroundColor = "#ff9500";
+        progressBar.style.boxShadow = "0 0 6px rgba(255, 149, 0, 0.5)";
+    } else {
+        progressBar.style.backgroundColor = "#34c759";
+        progressBar.style.boxShadow = "0 0 4px rgba(52, 199, 89, 0.4)";
+    }
+    
+    if (percentage > 85) {
+        progressBar.style.animation = "shake 0.5s ease-in-out";
+        setTimeout(() => {
+            progressBar.style.animation = "";
+        }, 500);
     }
 }
 
@@ -476,7 +495,9 @@ function renderFiles(newFiles = []) {
         let fileList = document.getElementById("fileList");
         let files = request.result.files;
 
-        // إذا كانت هناك ملفات جديدة، أضفها فقط
+        // تحديث شريط التقدم وعدد الملفات
+        updateProgressBar(files.length);
+
         if (newFiles.length > 0) {
             let fragment = document.createDocumentFragment();
 
@@ -532,8 +553,7 @@ function renderFiles(newFiles = []) {
 
             fileList.appendChild(fragment);
         } else {
-            // إذا لم تكن هناك ملفات جديدة، قم بإعادة تحميل جميع العناصر
-            fileList.innerHTML = "";  // مسح المحتوى الحالي
+            fileList.innerHTML = "";
 
             function processFiles(startIndex) {
                 const batchSize = 1;
@@ -603,14 +623,12 @@ function renderFiles(newFiles = []) {
     };
 }
 
-// دالة للتأكيد قبل الحذف
 function confirmDeleteFile(fileId) {
     if (window.confirm("هل أنت متأكد من أنك تريد حذف هذا الملف؟")) {
         deleteFile(fileId);
     }
 }
 
-// دالة الحذف الفعلي
 function deleteFile(fileId) {
     let transaction = db.transaction(["items"], "readwrite");
     let store = transaction.objectStore("items");
@@ -621,15 +639,15 @@ function deleteFile(fileId) {
         let index = files.findIndex(file => file.id === fileId);
 
         if (index !== -1) {
-            files.splice(index, 1);  // إزالة الملف من قاعدة البيانات
-            store.put(request.result);  // تحديث التخزين
+            files.splice(index, 1);
+            store.put(request.result);
+            updateProgressBar(files.length);
 
-            // إزالة العنصر من الواجهة مباشرة دون إعادة تحميل جميع العناصر
             const fileElements = document.querySelectorAll('#fileList .file');
             fileElements.forEach(element => {
                 const deleteButton = element.querySelector('button[onclick*="confirmDeleteFile(' + fileId + ')"]');
                 if (deleteButton) {
-                    element.remove(); // إزالة العنصر من DOM
+                    element.remove();
                 }
             });
         }
@@ -647,7 +665,6 @@ function shareFile(url, name) {
         });
 }
 
-// دالة لإظهار الملف في overlay
 function showFileInOverlay(file) {
     const overlay = document.getElementById("overlay");
     overlay.style.display = "block";
@@ -681,26 +698,23 @@ function showFileInOverlay(file) {
     `;
 }
 
-// دالة لإغلاق الـ overlay
 function hideOverlay() {
     const overlay = document.getElementById("overlay");
     overlay.style.display = "none";
-    overlay.innerHTML = '';  // مسح المحتوى
+    overlay.innerHTML = '';
 }
 
 function showOverlayMessage() {
-    // إخفاء inputDiv إذا كانت ظاهرة
     document.getElementById("inputDiv").style.display = "none";
-    
     const overlayMessage = document.getElementById("overlayMessage");
     overlayMessage.style.display = "block";
-    document.getElementById("overlay").style.display = "block"; // إظهار الـ overlay
+    document.getElementById("overlay").style.display = "block";
 }
 
 function hideOverlayMessage() {
     const overlayMessage = document.getElementById("overlayMessage");
     overlayMessage.style.display = "none";
-    document.getElementById("overlay").style.display = "none"; // إخفاء الـ overlay
+    document.getElementById("overlay").style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
