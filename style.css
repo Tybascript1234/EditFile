@@ -1074,6 +1074,10 @@ body .links-Translate-search label {
     body .zoon {
         opacity: 1;
     }
+    body .maenu {
+        top: 0;
+        position: fixed;
+    }
 }
 
 
