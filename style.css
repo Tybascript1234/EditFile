@@ -17,7 +17,11 @@ audio {
 source {
 
 }
+body .none {
+    opacity: .5;
+}
 icon {
+    display: block;
     width: 20px;
     height: 20px;
     opacity: .7;
@@ -37,6 +41,22 @@ ion-icon::before {
     left: 0;
     top: 0;
     z-index: 4;
+}
+.wifi {
+    position: absolute;
+    user-select: none;
+    left: 59px;
+    padding: 0px;
+    border-radius: 5px;
+    font-size: 12px;
+    bottom: 5px;
+    display: flex;
+    align-items: center;
+    color: #0969da;
+    background: #0000;
+}
+.wifi icon {
+    margin-right: 3px;
 }
 input,div,button {
     outline-color: #0969da;
@@ -73,26 +93,29 @@ hr {
     border: none;
 }
 
-.wave-button {
+.Wave-cloud {
     position: relative;
     overflow: hidden;
 }
-.wave-button .ripple {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: #9a9a9a46;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple-animation 0.6s linear infinite;
+.ripple {
+    position: absolute; border-radius: 50%;
+    background: rgba(122, 122, 122, 0.116);
     pointer-events: none;
-  }
+    transform: scale(0);
+    opacity: 1;
+    transition: transform 0.4s ease-out;
+}
+.ripple.expand {
+    transform: scale(4);
+}
+.ripple.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
 
-  @keyframes ripple-animation {
-    to {
-      transform: scale(4);
-      opacity: 0;
-    }
+body .Alx {
+    display: flex;
+    align-items: center;
 }
 
 
@@ -100,17 +123,19 @@ hr {
 
 .Document {
     position: relative;
+    transition: ease 0.3s;
     z-index: 100;
-    width: 1152px;
+    width: 1350px;
     background: white;
     max-width: -webkit-fill-available;
     height: 895px;
     max-height: -webkit-fill-available;
-    margin: 25px 0px;
+    margin: 19px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 6px 18px rgb(11 20 26 / 5%);
+    box-shadow: 0 5px 16px rgb(0 0 0 / 13%), 0px 1px 2px #0000000d;
+    /* box-shadow: 0px 6px 18px rgb(11 20 26 / 5%); */
 }
 .Document-div {
     width: 100%;
@@ -161,6 +186,7 @@ hr {
     border-radius: 23px;
 } */
 .vol {
+    position: relative;
     width: 36px;
     height: 36px;
     border: none;
@@ -170,6 +196,15 @@ hr {
 }
 .vol:hover {
     background: rgb(11 20 26 / 5%);
+}
+.vol::before {
+    z-index: 2;
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
 }
 
 
@@ -186,7 +221,7 @@ hr {
     position: relative;
     flex: 1 1 auto;
     height: 100%;
-    width: 839px;
+    width: auto;
     max-width: -webkit-fill-available;
 }
 .x0x {
@@ -216,7 +251,24 @@ hr {
     height: -webkit-fill-available;
     width: 240px;
     user-select: none;
-    margin-top: 44px;
+    margin-top: 56px;
+}
+
+.olix {
+    position: absolute;
+    user-select: none;
+    width: -webkit-fill-available;
+    top: 52px;
+    height: 4px;
+    display: flex;
+    align-items: center;
+    padding-right: 12px;
+}
+.olix .head-span a {
+    opacity: .5;
+}
+.olix .head-span span {
+    margin-right: 5px;
 }
 
 .click {
@@ -224,11 +276,13 @@ hr {
     cursor: pointer;
     display: flex;
     flex: auto;
+    text-align: right;
     align-items: center;
     /* height: 44px; */
     height: 40px;
     justify-content: right;
     padding: 0 16px;
+    padding-left: 59px;
     font-family: 'Tajawal', sans-serif;
 }
 .item:hover {
@@ -239,6 +293,7 @@ hr {
 }
 body .onlin {
     top: 0;
+    user-select: none;
     position: absolute;
     transition: ease 0.2s;
     cursor: pointer;
@@ -247,6 +302,7 @@ body .onlin {
     height: 44px;
     justify-content: space-between;
     padding: 0 16px;
+    box-shadow: 0px 1px 0px #ededed;
     width: 208px;
     font-family: 'Tajawal', sans-serif;
 }
@@ -433,6 +489,9 @@ body .Translate-div, .Translate-div-tr a {
     box-shadow: 0px 1px 3px #00000026;
     max-width: 160px;
     width: auto;
+    background-image: repeating-conic-gradient(#d8d8d8 0 25%, transparent 0 50%);
+    background-position: 50%;
+    background-size: 28px 28px;
 }
 @keyframes content {
     0% {
@@ -531,7 +590,7 @@ body .Translate-div, .Translate-div-tr a {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 38px;
+    height: 40px;
     padding: 0 22px;
     margin-left: 5px;
     font-family: 'Tajawal';
@@ -541,7 +600,7 @@ body .Translate-div, .Translate-div-tr a {
     background: #0000;
 }
 .ccd ion-icon {
-    color: white;
+    color: #d1242f;
 }
 .ccd::before {
     transition: ease 0.2s;
@@ -549,7 +608,7 @@ body .Translate-div, .Translate-div-tr a {
     content: '';
     left: 0;
     top: 0;
-    height: 38px;
+    height: 100%;
     z-index: -1;
     width: 100%;
     border-radius: 25px;
@@ -557,6 +616,9 @@ body .Translate-div, .Translate-div-tr a {
 }
 .ccd:active:before {
     transform: scale(0.95);
+}
+.ccd .ripple {
+    background-color: rgba(255, 255, 255, 0.13);
 }
 .rro:hover {
     background: #ffebe9;
@@ -578,6 +640,9 @@ body .Translate-div, .Translate-div-tr a {
 .head {
     position: sticky;
     z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     top: 0;
     padding-top: 10px;
     box-shadow: 0px 11px 8px #fff;
@@ -590,6 +655,25 @@ body .Translate-div, .Translate-div-tr a {
     justify-content: right;
     flex: 1 1 auto;
 }
+.head-div-div {
+    user-select: none;
+    margin: 0 12px;
+    height: 4px;
+    flex: auto;
+    border-radius: 5px;
+    background: #8ca4b924;
+}
+.head-div-div span {
+    transition: ease 0.2s;
+    display: block;
+    height: 4px;
+    border-radius: 5px;
+    width: 20%;
+    background-color: #249aff;
+}
+/* .head-div-div span:hover {
+    transform: scale(1.1);
+} */
 .head_div {
     display: flex;
     align-items: center;
@@ -601,7 +685,7 @@ body .Translate-div, .Translate-div-tr a {
     opacity: .0;
     position: relative;
     right: -60px;
-    display: flex;
+    display: block;
     align-items: center;
 }
 .buttone {
@@ -609,7 +693,7 @@ body .Translate-div, .Translate-div-tr a {
     height: 32px;
     border: none;
     border-radius: 20px;
-    margin-right: 8px;
+    margin-bottom: 8px;
 }
 .buttone button ion-icon {
     font-size: 18px;
@@ -619,16 +703,20 @@ body .Translate-div, .Translate-div-tr a {
 }
 .item {
     position: relative;
+    width: -webkit-fill-available;
     display: flex;
+    height: max-content;
     align-items: center;
     margin: 6px;
     margin-bottom: 0;
-    border-radius: 27px;
+    border-radius: 35px 0px 0px 35px;
+    margin-right: 0;
     overflow: hidden;
 }
 .item-buttons {
     transition: ease 0.1s;
     position: absolute;
+    z-index: 4;
     left: 0;
     display: flex;
     margin-left: 16px;
@@ -647,7 +735,7 @@ body .Translate-div, .Translate-div-tr a {
     font-size: 18px;
 }
 .item-buttons button {
-    transition: ease 0.1s;
+    transition: ease 0.3s;
     width: 32px;
     height: 32px;
     border: none;
@@ -659,6 +747,7 @@ body .Translate-div, .Translate-div-tr a {
     font-size: 18px;
 }
 .item-buttons button:active {
+    transition: ease 0.1s;
     transform: scale(0.95);
 }
 .item:hover .item-buttons {
@@ -699,8 +788,11 @@ body .Translate-div, .Translate-div-tr a {
 .jokr img,video {
     user-select: none;
     animation: online 0.3s;
-    background-color: white;
-    box-shadow: 0px 1px 3px #00000026;
+    background-color: #ffffff;
+    box-shadow: 0px 8px 25px #000000a3, 0px 1px 2px #000;
+    background-image: repeating-conic-gradient(#d8d8d8 0 25%, transparent 0 50%);
+    background-position: 50%;
+    background-size: 28px 28px;
 }
 .jokr a {
     position: relative;
@@ -864,6 +956,54 @@ body .Translate-div, .Translate-div-tr a {
     box-shadow: 0px 1px 3px #00000034;
     padding-bottom: 45px;
 }
+.closebutton {
+    position: absolute;
+    top: 0;
+}
+.closebutton .Wave-cloud .ripple {
+    background-color: #d1243028;
+}
+
+/* Extensions */
+.Extensions {
+    position: sticky;
+    background: white;
+    z-index: 6;
+    margin: 0;
+    padding: 0px 16px;
+    height: 45px;
+    font-weight: 600;
+}
+.Extensions-div {
+    overflow-y: auto;
+    width: 240px;
+}
+.Extensions-div .item-buttons button {
+    box-shadow: 0 0 0 1px #92d4ff;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Extensions-div .item-buttons button icon {
+    width: 18px;
+    height: 18px;
+}
+
+.Extensions-div .click {
+    user-select: none;
+    padding: 10.5px 16px;
+    padding-left: 59px;
+    height: auto;
+}
+
+body .links-Translate-search label {
+    height: max-content;
+    width: max-content;
+    margin: 0;
+}
 
 
 
@@ -896,7 +1036,7 @@ body .Translate-div, .Translate-div-tr a {
         top: 0;
         right: 0;
         border-left: none;
-        box-shadow: -6px 0px 18px rgb(11 20 26 / 5%);
+        box-shadow: 0 0 16px rgba(0,0,0,.28)
     }
     body .zoon {
         right: -9px;
@@ -910,22 +1050,28 @@ body .Translate-div, .Translate-div-tr a {
     body .zzz {
         display: none;
     }
-    body .chat {border-right: none;}
+    body .chat {
+        border-right: none;
+        position: fixed;
+    }
     body .klick {
         margin: 0 4px;
     }
     body .tooles-div {
-        margin-top: 55px;
+        margin-top: 67px;
     }
     body .tooles-div hr {
         background: #0000;
     }
     body .onlin {
-        height: 48px;
-        box-shadow: var(--dt-shadow-elevation-1, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15));
-        margin: 4px 5px;
-        width: 198px;
-        border-radius: 10px;
+        box-shadow: var(--dt-shadow-elevation-1, 0 1px 2px 0 rgb(60 64 67 / 0%), 0 1px 3px 1px rgba(60, 64, 67, .15));
+        height: 55px;
+    }
+    body .olix {
+        top: 63px;
+    }
+    body .zoon {
+        opacity: 1;
     }
 }
 
