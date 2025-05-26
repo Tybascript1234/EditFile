@@ -257,7 +257,7 @@ body .Alx {
 .olix {
     position: absolute;
     user-select: none;
-    width: -webkit-fill-available;
+    width: 228px;
     top: 52px;
     height: 4px;
     display: flex;
@@ -268,7 +268,7 @@ body .Alx {
     opacity: .5;
 }
 .olix .head-span span {
-    margin-right: 5px;
+    margin-right: 0;
 }
 
 .click {
@@ -656,6 +656,7 @@ body .Translate-div, .Translate-div-tr a {
     flex: 1 1 auto;
 }
 .head-div-div {
+    transition: ease 0.3s;
     user-select: none;
     margin: 0 12px;
     height: 4px;
@@ -668,8 +669,8 @@ body .Translate-div, .Translate-div-tr a {
     display: block;
     height: 4px;
     border-radius: 5px;
-    width: 20%;
-    background-color: #249aff;
+    width: 0%;
+    /* background-color: #249aff; */
 }
 /* .head-div-div span:hover {
     transform: scale(1.1);
@@ -828,9 +829,11 @@ body .Translate-div, .Translate-div-tr a {
     border-radius: 5px;
     background: #0087ff14;
     overflow: hidden;
-    padding: 2px 0;
+    padding: 1px 0;
+    padding-top: 0;
     max-height: 300px;
     margin-bottom: 4px;
+    box-shadow: 0px -1px 2px #00000012;
 }
 .gon:active {
     background: #0087ff21;
