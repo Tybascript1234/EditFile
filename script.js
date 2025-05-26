@@ -10,58 +10,58 @@
 
 
 
-// repply
+// // repply
 
-window.addEventListener("load", function () {
-    setTimeout(() => {
-        // تأكد من أنه لا توجد رسائل JavaScript قبل تنفيذ الموجة
-        if (!window.alertOpen) {
-            initializeWaveButtons();
-        }
-    }, 100); // تأخير بسيط للتأكد من تحميل العناصر
+// window.addEventListener("load", function () {
+//     setTimeout(() => {
+//         // تأكد من أنه لا توجد رسائل JavaScript قبل تنفيذ الموجة
+//         if (!window.alertOpen) {
+//             initializeWaveButtons();
+//         }
+//     }, 100); // تأخير بسيط للتأكد من تحميل العناصر
 
-    function initializeWaveButtons() {
-        const elements = document.querySelectorAll('.wave-button');
+//     function initializeWaveButtons() {
+//         const elements = document.querySelectorAll('.wave-button');
 
-        elements.forEach(element => {
-            let isRippleActive = false;
+//         elements.forEach(element => {
+//             let isRippleActive = false;
 
-            function createRipple(e) {
-                if (isRippleActive) return;
+//             function createRipple(e) {
+//                 if (isRippleActive) return;
 
-                isRippleActive = true;
+//                 isRippleActive = true;
 
-                const ripple = document.createElement('span');
-                const rect = element.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
+//                 const ripple = document.createElement('span');
+//                 const rect = element.getBoundingClientRect();
+//                 const size = Math.max(rect.width, rect.height);
 
-                let x, y;
-                if (e.clientX && e.clientY) {
-                    x = e.clientX - rect.left - size / 2;
-                    y = e.clientY - rect.top - size / 2;
-                } else if (e.touches && e.touches[0]) {
-                    x = e.touches[0].clientX - rect.left - size / 2;
-                    y = e.touches[0].clientY - rect.top - size / 2;
-                }
+//                 let x, y;
+//                 if (e.clientX && e.clientY) {
+//                     x = e.clientX - rect.left - size / 2;
+//                     y = e.clientY - rect.top - size / 2;
+//                 } else if (e.touches && e.touches[0]) {
+//                     x = e.touches[0].clientX - rect.left - size / 2;
+//                     y = e.touches[0].clientY - rect.top - size / 2;
+//                 }
 
-                ripple.style.width = ripple.style.height = `${size}px`;
-                ripple.style.left = `${x}px`;
-                ripple.style.top = `${y}px`;
-                ripple.classList.add('ripple');
+//                 ripple.style.width = ripple.style.height = `${size}px`;
+//                 ripple.style.left = `${x}px`;
+//                 ripple.style.top = `${y}px`;
+//                 ripple.classList.add('ripple');
 
-                element.appendChild(ripple);
+//                 element.appendChild(ripple);
 
-                setTimeout(() => {
-                    ripple.remove();
-                    isRippleActive = false;
-                }, 600);
-            }
+//                 setTimeout(() => {
+//                     ripple.remove();
+//                     isRippleActive = false;
+//                 }, 600);
+//             }
 
-            element.addEventListener('mousedown', createRipple);
-            element.addEventListener('touchstart', createRipple);
-        });
-    }
-});
+//             element.addEventListener('mousedown', createRipple);
+//             element.addEventListener('touchstart', createRipple);
+//         });
+//     }
+// });
 
 
 // ---------------------------------------------------------------------------------
@@ -106,47 +106,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const codar = document.getElementById("codar");
-    const toggleBtn = document.getElementById("toggleBtn");
-  
-    if (!codar || !toggleBtn) return; // إيقاف التنفيذ إذا لم يوجد أحد العنصرين
-  
-    function checkScreenSize() {
-        if (window.innerWidth <= 800) {
-            codar.style.width = "0px";
-        } else {
-            codar.style.width = "240px";
-        }
-    }
-  
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-  
-    toggleBtn.addEventListener("click", function () {
-        if (codar.style.width === "0px") {
-            codar.style.width = "240px";
-        } else {
-            codar.style.width = "0px";
-        }
+document.addEventListener("DOMContentLoaded", function () {
+  const codars = document.querySelectorAll(".codar");
+  const toggleButtons = document.querySelectorAll(".toggleBtn");
+
+  if (!codars.length || !toggleButtons.length) return;
+
+  function checkScreenSize() {
+    codars.forEach((codar) => {
+      const shouldBeClosed = codar.getAttribute("data-initial") === "closed";
+      if (window.innerWidth <= 800 || shouldBeClosed) {
+        codar.style.width = "0px";
+        codar.style.opacity = "0";
+        codar.style.borderLeft = "0px";
+      } else {
+        codar.style.width = "240px";
+        codar.style.opacity = "1";
+        codar.style.borderLeft =
+          window.innerWidth <= 800 ? "0px" : "solid 1px #ededed";
+      }
     });
-  
-    document.addEventListener("touchstart", function (event) {
-        if (window.innerWidth <= 800) {
-            if (!codar.contains(event.target) && event.target !== toggleBtn) {
-                codar.style.width = "0px";
-            }
-        }
-    });
-  
-    document.addEventListener("click", function (event) {
-        if (window.innerWidth <= 800) {
-            if (!codar.contains(event.target) && event.target !== toggleBtn) {
-                codar.style.width = "0px";
-            }
-        }
+  }
+
+  checkScreenSize();
+  window.addEventListener("resize", checkScreenSize);
+
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const targetId = btn.getAttribute("data-target");
+      const codar = document.getElementById(targetId);
+      if (!codar) return;
+
+      if (codar.style.width === "0px") {
+        codar.style.width = "240px";
+        codar.style.opacity = "1";
+        codar.style.borderLeft =
+          window.innerWidth <= 800 ? "0px" : "solid 1px #ededed";
+      } else {
+        codar.style.width = "0px";
+        codar.style.opacity = "0";
+        codar.style.borderLeft = "0px";
+      }
     });
   });
+
+  function hideCodarsIfClickedOutside(event) {
+    if (window.innerWidth <= 800) {
+      codars.forEach((codar, i) => {
+        const toggleBtn = toggleButtons[i];
+        if (!codar.contains(event.target) && event.target !== toggleBtn) {
+          codar.style.width = "0px";
+          codar.style.opacity = "0";
+          codar.style.borderLeft = "0px";
+        }
+      });
+    }
+  }
+
+  document.addEventListener("touchstart", hideCodarsIfClickedOutside);
+  document.addEventListener("click", hideCodarsIfClickedOutside);
+});
+
   
 
 
@@ -176,35 +196,116 @@ setInterval(() => {
     }
 }, 0); // التحقق كل نصف ثانية
 
-window.onload = function() {
-    const messageInput = document.getElementById("messageInput");
-    const filesSection = document.getElementById("filesSection");
+document.addEventListener("DOMContentLoaded", function () {
+  const messageInput = document.getElementById("messageInput");
+  const filesSection = document.getElementById("filesSection");
 
-    if (messageInput && filesSection) {
-        messageInput.addEventListener("input", () => {
-            // إعادة تعيين الارتفاع إلى 'auto' لحساب scrollHeight بدقة
-            messageInput.style.height = 'auto';
-            
-            // حساب الارتفاع الجديد
-            const textHeight = messageInput.scrollHeight;
-            const isEmpty = messageInput.textContent.trim() === "";
-            const newHeight = isEmpty ? 21.5 : Math.min(Math.max(21.5, textHeight), 168);
-            
-            messageInput.style.height = newHeight + "px";
+  if (messageInput && filesSection) {
+    messageInput.addEventListener("input", () => {
+      messageInput.style.height = "auto";
 
-            // حساب الهامش السفلي
-            let marginBottom;
-            if (isEmpty) {
-                marginBottom = 66;
-            } else {
-                const heightDifference = newHeight - 21.5;
-                marginBottom = 66 + (heightDifference * (146 / 147));
-                marginBottom = Math.min(213, marginBottom);
-            }
-            
-            filesSection.style.marginBottom = marginBottom + "px";
-        });
+      const textHeight = messageInput.scrollHeight;
+      const isEmpty = messageInput.textContent.trim() === "";
+      const newHeight = isEmpty
+        ? 21.5
+        : Math.min(Math.max(21.5, textHeight), 168);
+
+      messageInput.style.height = newHeight + "px";
+
+      let marginBottom;
+      if (isEmpty) {
+        marginBottom = 66;
+      } else {
+        const heightDifference = newHeight - 21.5;
+        marginBottom = 66 + heightDifference * (146 / 147);
+        marginBottom = Math.min(213, marginBottom);
+      }
+
+      filesSection.style.marginBottom = marginBottom + "px";
+    });
+  } else {
+    console.error("الـ div أو textarea غير موجودين.");
+  }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+document.querySelectorAll('.Wave-cloud').forEach(btn => {
+  let ripple = null;
+
+  const create = e => {
+    if (ripple) return;
+    const r = btn.getBoundingClientRect(), s = Math.max(r.width, r.height) * 0.5;
+    ripple = Object.assign(document.createElement('span'), {
+      className: 'ripple',
+      style: `width:${s}px;height:${s}px;left:${e.clientX - r.left - s/2}px;top:${e.clientY - r.top - s/2}px`
+    });
+    btn.appendChild(ripple);
+    requestAnimationFrame(() => ripple.classList.add('expand'));
+  };
+
+  const release = () => {
+    if (!ripple) return;
+    const current = ripple;
+    ripple = null;
+    setTimeout(() => {
+      current.classList.add('fade-out');
+      current.addEventListener('transitionend', () => {
+        if (current.parentNode) current.remove();
+      }, { once: true });
+    }, 400);
+  };
+
+  ['mousedown','touchstart'].forEach(e => btn.addEventListener(e, create));
+  ['mouseup','touchend','mouseleave','touchcancel'].forEach(e => btn.addEventListener(e, release));
+});
+
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("toggleBtn234");
+  const div1 = document.getElementById("div1");
+  const scriptSrc = "https://tybascript1234.github.io/Languag/embed.js";
+
+  function toggleContent(show) {
+    if (show) {
+      const script = Object.assign(document.createElement("script"), {
+        src: scriptSrc,
+        id: "dynamicScript",
+      });
+      const targetDiv = Object.assign(document.createElement("div"), {
+        id: "target-container",
+      });
+      div1.append(script, targetDiv);
     } else {
-        console.error("الـ div أو textarea غير موجودين.");
+      ["dynamicScript", "target-container"].forEach((id) =>
+        document.getElementById(id)?.remove()
+      );
     }
-};
+    btn.innerHTML = show
+      ? '<icon style="background-image: url(Icon/remove.svg);animation: online 0.3s;"></icon>'
+      : '<icon style="background-image: url(Icon/add.svg);animation: online 0.3s;"></icon>';
+    localStorage.setItem("contentShown", show);
+  }
+
+  btn.onclick = (e) => {
+    e.stopPropagation(); // تأكد أن النقر لا يتسرب
+    const newState = localStorage.getItem("contentShown") !== "true";
+    toggleContent(newState);
+    // الرسائل تظهر فقط عند النقر على الزر
+    if (newState) {
+      alert("تم تفعيل الترجمة ");
+    } else {
+      alert("تم إلغاء الترجمة");
+    }
+  };
+
+  // منع أي تأثير للنقر داخل div1
+  div1.onclick = (e) => {
+    e.stopPropagation(); // لا تفعل شيئًا عند النقر على div1
+  };
+
+  window.onload = () =>
+    toggleContent(localStorage.getItem("contentShown") === "true");
+  
+});
